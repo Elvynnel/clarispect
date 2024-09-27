@@ -1,0 +1,29 @@
+if [[ ! -z $(git status | grep 'no changes added to commit') ]]; then
+    echo "No changes added to commit. Interrupting."
+    exit 1
+fi
+
+if [[ ! -z $(git status | grep 'Changes not staged for commit:') ]]; then
+    RED='\033[1;31m'
+    NC='\033[0m' # No Color
+
+    echo "\n${RED}Some files are not staged! Make sure to add everything you need!${NC}\n"
+
+    read -n1 -p "Do you want to continue commiting? [y/n]" doit < /dev/tty 
+    if [[ ! $doit = "y" ]]; then
+        echo "\n\nCommit attempt interrupted by developer!"
+        exit 1
+    fi
+fi
+
+echo "\n[1/5] :: Typescript check ::"
+yarn tsc
+echo "[2/5] :: Linting ::"
+yarn lint:check-warnings
+echo "[3/5] :: Finding deadcode ::"
+yarn find-deadcode
+echo "[4/5] :: Unit testing ::"
+yarn test
+echo "[5/5] :: Commitlint (via commit-msg file)::"
+
+
