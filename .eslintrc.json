@@ -1,3 +1,58 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+	"env": {
+		"browser": true,
+		"commonjs": true,
+		"es2021": true,
+		"node": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:react/recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:typescript-sort-keys/recommended",
+		"prettier",
+		"plugin:react/jsx-runtime",
+		"plugin:@next/next/recommended"
+	],
+	"overrides": [
+		{
+			"files": "**/*.json",
+			"rules": {
+				"comma-dangle": "off"
+			}
+		}
+	],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"plugins": [
+		"prettier",
+		"react",
+		"simple-import-sort",
+		"sort-keys-fix",
+		"sort-destructure-keys",
+		"typescript-sort-keys",
+		"@typescript-eslint",
+		"unused-imports"
+	],
+	"rules": {
+		"@typescript-eslint/ban-ts-comment": "off",
+		"arrow-body-style": ["error", "as-needed"],
+		"indent": "off",
+		"prettier/prettier": "error",
+		"react/react-in-jsx-scope": "off",
+		"simple-import-sort/exports": "error",
+		"simple-import-sort/imports": "error",
+		"sort-destructure-keys/sort-destructure-keys": 1,
+		"sort-keys-fix/sort-keys-fix": "warn",
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-imports-ts": "error"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	}
 }
