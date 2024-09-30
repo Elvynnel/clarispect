@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Clip } from '@/app/api/clips/route';
+import { Clip } from '@/types/clip';
 
 export default async function ListingPage() {
 	async function fetchClips() {

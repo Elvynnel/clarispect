@@ -1,12 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export interface Clip {
-	createdAt: string;
-	id: string;
-	name: string;
-	thumbnail: string;
-	videoUrl: string;
-}
+import { Clip } from '@/types/clip';
 
 export const clips: Clip[] = [
 	{
