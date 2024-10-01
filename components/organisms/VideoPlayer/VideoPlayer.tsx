@@ -1,6 +1,7 @@
 'use client';
 import { clsx } from 'clsx';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { match } from 'ts-pattern';
 
 import { ScrubBar } from '@/components/molecules/ScrubBar/ScrubBar';
 import { Clip } from '@/types/clip';
@@ -23,6 +24,50 @@ export const VideoPlayer = ({ clip }: { clip: Clip }) => {
 			}
 		}
 	};
+
+	const onMuteToggle = () => {
+		const videoEl = videoRef.current;
+		if (!videoEl) return;
+
+		if (isMuted) {
+			setIsMuted(false);
+			videoEl.muted = false;
+		} else {
+			setIsMuted(true);
+			videoEl.muted = true;
+		}
+	};
+
+	const onSeekBackward = () => {
+		if (videoRef.current && videoRef.current.currentTime > 0) {
+			videoRef.current.currentTime -= 10;
+		}
+	};
+
+	const onSeekForward = () => {
+		if (videoRef.current && videoRef.current.currentTime < videoRef.current.duration) {
+			videoRef.current.currentTime += 10;
+		}
+	};
+
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			match(e.key)
+				.with(' ', () => {
+					e.preventDefault();
+					onPlayPause();
+				})
+				.with('m', onMuteToggle)
+				.with('ArrowLeft', onSeekBackward)
+				.with('ArrowRight', onSeekForward)
+				.otherwise(() => {});
+		};
+
+		document.addEventListener('keydown', handleKeyDown);
+		return () => {
+			document.removeEventListener('keydown', handleKeyDown);
+		};
+	}, [isPlaying, isMuted]);
 
 	return (
 		<div className="flex flex-col items-center">
@@ -48,37 +93,9 @@ export const VideoPlayer = ({ clip }: { clip: Clip }) => {
 			</div>
 			<div className="flex gap-4 pt-4">
 				<button onClick={onPlayPause}>{isPlaying ? 'Stop' : 'Start'}</button>
-				<button
-					onClick={() => {
-						if (videoRef.current && videoRef.current.currentTime > 0)
-							videoRef.current.currentTime -= 10;
-					}}
-				>
-					Prev 10s
-				</button>
-				<button
-					onClick={() => {
-						if (videoRef.current && videoRef.current.currentTime < videoRef.current.duration)
-							videoRef.current.currentTime += 10;
-					}}
-				>
-					Next 10s
-				</button>
-				<button
-					onClick={() => {
-						if (!videoRef.current) return;
-
-						if (isMuted) {
-							setIsMuted(false);
-							videoRef.current.muted = false;
-						} else {
-							setIsMuted(true);
-							videoRef.current.muted = true;
-						}
-					}}
-				>
-					{isMuted ? 'Unmute' : 'Mute'}
-				</button>
+				<button onClick={onSeekBackward}>Prev 10s</button>
+				<button onClick={onSeekForward}>Next 10s</button>
+				<button onClick={onMuteToggle}>{isMuted ? 'Unmute' : 'Mute'}</button>
 			</div>
 		</div>
 	);
