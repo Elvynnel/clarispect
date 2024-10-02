@@ -11,7 +11,7 @@ export default async function PreviewPage({ params: { id } }: { params: { id: st
 	const clip: Clip = await response.json();
 
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center pb-10">
 			<VideoPlayer clip={clip} />
 		</div>
 	);

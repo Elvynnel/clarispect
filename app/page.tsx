@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
+import { SectionText } from '@/components/atoms/SectionText/SectionText';
+import { ClipCard } from '@/components/molecules/ClipCard/ClipCard';
 import { SortLink } from '@/components/molecules/SortLink/SortLink';
-import { toClipDateFormat } from '@/helpers/date/date.helpers';
 import { Clip } from '@/types/clip';
 
 interface ListingPageProps {
@@ -25,39 +25,34 @@ export default async function ListingPage({ searchParams: { order, sortBy } }: L
 		}
 	}
 
-	const clips = await fetchClips();
+	const clips: Clip[] = await fetchClips();
 
 	return (
-		<div>
-			<div className="flex items-center justify-end gap-4 px-8 pt-8 align-middle">
-				<p>Sort by:</p>
-				<div className="flex gap-0">
-					<SortLink sortKey="createdAt" order={order} activeSortKey={sortBy} sortParamName="Date" />
-					<SortLink sortKey="name" order={order} activeSortKey={sortBy} sortParamName="Name" />
+		<div className="flex flex-col items-center">
+			<div className="my-8 w-11/12 max-w-screen-xl rounded-3xl bg-slate-900 p-8 2xl:max-w-screen-2xl">
+				<SortingSection order={order} sortBy={sortBy} />
+				<SectionText>Recommended for you</SectionText>
+				<ClipCard.Exposed clip={clips[0]} href={`/${clips[0].id}`} />
+				<SectionText className="pt-6">More videos</SectionText>
+				<div className="grid grid-cols-3 gap-8 pb-20">
+					{clips.slice(1).map((clip) => (
+						<ClipCard clip={clip} href={`/${clip.id}`} key={clip.id} />
+					))}
 				</div>
-				<Link href={'/'}>X</Link>
-			</div>
-			<div className="grid min-h-screen grid-cols-3 gap-8 p-8 pb-20 font-[family-name:var(--font-geist-sans)]">
-				{clips.map(({ createdAt, id, name, thumbnail }: Clip) => (
-					<Link
-						href={`/${id}`}
-						key={id}
-						className="transform rounded-lg bg-white p-4 shadow-md transition-transform hover:scale-105"
-					>
-						<Image
-							src={thumbnail}
-							alt={name}
-							className="h-48 w-full rounded-t-lg object-cover"
-							width={320}
-							height={180}
-						/>
-						<div className="p-4">
-							<h2 className="text-lg font-semibold">{name}</h2>
-							<p className="text-sm text-gray-500">{toClipDateFormat(createdAt)}</p>
-						</div>
-					</Link>
-				))}
 			</div>
 		</div>
 	);
 }
+
+const SortingSection = ({ order, sortBy }: ListingPageProps['searchParams']) => (
+	<div className="flex items-center justify-end gap-4 align-middle">
+		<p className="text-xs text-white">Sort by:</p>
+		<div className="flex">
+			<SortLink sortKey="createdAt" order={order} activeSortKey={sortBy} sortParamName="Date" />
+			<SortLink sortKey="name" order={order} activeSortKey={sortBy} sortParamName="Name" />
+		</div>
+		<Link href={'/'} className="p-1 text-xs text-white">
+			X
+		</Link>
+	</div>
+);

@@ -1,9 +1,10 @@
 import { clsx } from 'clsx';
 import { match } from 'ts-pattern';
 
-interface IconProps {
+export interface IconProps {
 	className?: string;
 	colorClassName?: string;
+	maskSize?: 'cover' | 'contain';
 	onClick?: () => void;
 	size?: 'xs' | 's' | 'm' | null;
 	source?: string;
@@ -12,7 +13,8 @@ interface IconProps {
 
 const Icon = ({
 	className,
-	colorClassName = 'bg-neutral-800',
+	colorClassName = 'bg-white',
+	maskSize,
 	onClick,
 	size = 's',
 	source,
@@ -30,10 +32,11 @@ const Icon = ({
 	return (
 		<ComponentType
 			className={clsx(
-				'shrink-0 [mask-position:center] [mask-repeat:no-repeat] [mask-size:cover]',
+				'shrink-0 [mask-position:center] [mask-repeat:no-repeat]',
 				colorClassName,
 				sizeClassNames,
 				source,
+				maskSize === 'contain' ? '[mask-size:contain]' : '[mask-size:cover]',
 				className,
 			)}
 			onClick={onClick}
@@ -43,9 +46,59 @@ const Icon = ({
 
 type SpecificIcon = Omit<IconProps, 'source'>;
 
+export const IconArrowBackward = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/arrow_backward.svg")]', className)}
+	/>
+);
+
+export const IconArrowForward = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/arrow_forward.svg")]', className)}
+	/>
+);
+
+export const IconArrowPlayAgain = ({ className, maskSize = 'contain', ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		maskSize={maskSize}
+		className={clsx('[mask-image:url("../public/images/svg/arrow_play_again.svg")]', className)}
+	/>
+);
+
 export const IconArrowUp = ({ className, ...props }: SpecificIcon) => (
 	<Icon
 		{...props}
 		className={clsx('[mask-image:url("../public/images/svg/arrow_up.svg")]', className)}
+	/>
+);
+
+export const IconMuted = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/muted.svg")]', className)}
+	/>
+);
+
+export const IconUnmuted = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/unmuted.svg")]', className)}
+	/>
+);
+
+export const IconPlay = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/play.svg")]', className)}
+	/>
+);
+
+export const IconPause = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/pause.svg")]', className)}
 	/>
 );

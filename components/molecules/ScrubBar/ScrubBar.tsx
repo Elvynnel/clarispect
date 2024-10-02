@@ -41,7 +41,6 @@ export const ScrubBar = ({ videoRef }: { videoRef: MutableRefObject<HTMLVideoEle
 	};
 
 	useEffect(() => {
-		//TODO: Optimize (do not rerender on every timeupdate)?
 		if (videoRef.current && !isDragging) {
 			const videoEl = videoRef.current;
 
@@ -69,35 +68,39 @@ export const ScrubBar = ({ videoRef }: { videoRef: MutableRefObject<HTMLVideoEle
 		};
 	}, [isDragging]);
 
-	if (!videoRef.current?.played) return null;
+	if (!videoRef.current?.played) return <div className="h-[6px] w-full" />;
 
 	const bufferedTime = getLeadingBufferedTime(videoRef.current.buffered, currentTime);
 
 	return (
-		<>
+		<div
+			className="flex h-[6px] w-full cursor-pointer bg-orange-100"
+			ref={scrubBarRef}
+			onClick={onScrubBarClick}
+			onMouseDown={onMouseDown}
+		>
 			<div
-				className="flex h-[8px] w-full cursor-pointer bg-slate-400"
-				ref={scrubBarRef}
-				onClick={onScrubBarClick}
-				onMouseDown={onMouseDown}
+				className="relative h-full bg-orange-500"
+				style={{
+					width: currentTime !== 0 ? `${(currentTime / duration) * 100}%` : '0%',
+				}}
 			>
-				<div
-					className="h-full bg-teal-900"
-					style={{
-						width: currentTime !== 0 ? `${(currentTime / duration) * 100}%` : '0%',
-					}}
-				/>
-				<div
-					className="h-full bg-teal-500"
-					style={{
-						width: currentTime !== 0 && bufferedTime ? `${(bufferedTime / duration) * 100}%` : '0%',
-					}}
-				/>
+				<div className="absolute -right-2 -top-[5px] h-4 w-4 rounded-full border-[1px] border-orange-300 bg-orange-500"></div>
+				{isDragging && (
+					<div className="absolute -right-6 -top-[34px] flex w-12 select-none items-center justify-center rounded-l-full rounded-r-full bg-orange-50">
+						<p>
+							{currentTime >= 0 ? Math.round(currentTime) : 0}
+							<span className="text-xs">s</span>
+						</p>
+					</div>
+				)}
 			</div>
-			{/* TODO: Display time in another place? */}
-			<div>
-				{Math.round(currentTime)}/{Math.round(duration)}
-			</div>
-		</>
+			<div
+				className="h-full bg-orange-300"
+				style={{
+					width: currentTime !== 0 && bufferedTime ? `${(bufferedTime / duration) * 100}%` : '0%',
+				}}
+			/>
+		</div>
 	);
 };

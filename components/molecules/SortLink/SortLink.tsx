@@ -15,7 +15,12 @@ export const SortLink = ({ activeSortKey, order, sortKey, sortParamName }: SortL
 
 	return (
 		<Link href={`?sortBy=${sortKey}&order=${order === 'asc' ? 'desc' : 'asc'}`}>
-			<p className={clsx('flex min-w-16 items-center', isActive ? 'font-bold' : 'font-thin')}>
+			<p
+				className={clsx(
+					'flex min-w-16 items-center',
+					isActive ? 'font-bold text-orange-200' : 'font-thin text-white',
+				)}
+			>
 				{sortParamName}
 				{isActive && (
 					<IconArrowUp
@@ -25,6 +30,7 @@ export const SortLink = ({ activeSortKey, order, sortKey, sortParamName }: SortL
 							'transition-transform duration-500 ease-in-out',
 							order === 'desc' ? 'rotate-180' : 'rotate-0',
 						)}
+						colorClassName="bg-orange-200"
 					/>
 				)}
 			</p>
