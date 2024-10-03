@@ -8,5 +8,7 @@ export const SectionText = ({
 	children: ReactNode;
 	className?: string;
 }) => (
-	<p className={clsx('text-l pb-1 text-orange-300 2xl:pb-2 2xl:text-2xl', className)}>{children}</p>
+	<p className={clsx('pb-1 text-sm text-orange-300 md:text-lg 2xl:pb-2 2xl:text-2xl', className)}>
+		{children}
+	</p>
 );

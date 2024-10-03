@@ -104,10 +104,15 @@ export const VideoPlayer = ({ clip }: { clip: Clip }) => {
 	return (
 		<div className="flex w-11/12 flex-col rounded-3xl bg-slate-900 px-6 pt-4 md:max-w-screen-md 2xl:max-w-screen-lg 2xl:px-8 2xl:pt-8">
 			<SectionText>Never gonna to unsee this</SectionText>
-			<p className={clsx('pb-1 text-3xl text-white 2xl:pb-4 2xl:text-5xl', berkshire.className)}>
+			<p
+				className={clsx(
+					'pb-1 text-xl text-white md:text-3xl 2xl:pb-4 2xl:text-5xl',
+					berkshire.className,
+				)}
+			>
 				{clip.name}
 			</p>
-			<p className="text-l pb-2 text-white 2xl:pb-3 2xl:text-xl">
+			<p className="pb-2 text-sm text-white md:text-lg 2xl:pb-3 2xl:text-xl">
 				{toClipDateFormat(clip.createdAt)}
 			</p>
 			<div className="grid">
@@ -128,7 +133,7 @@ export const VideoPlayer = ({ clip }: { clip: Clip }) => {
 				<ScrubBar videoRef={videoRef} />
 			</div>
 
-			<div className="flex w-full items-center justify-center gap-6 py-8">
+			<div className="flex w-full items-center justify-center gap-2 py-8 sm:gap-6">
 				<IconButton size="xs" onClick={onPlayAgain} Icon={IconArrowPlayAgain} />
 				<IconButton onClick={onSeekBackward} Icon={IconArrowBackward} />
 				<IconButton

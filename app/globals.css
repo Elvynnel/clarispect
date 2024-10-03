@@ -7,8 +7,7 @@ html {
 }
 
 body {
-	color: var(--foreground);
-	background: var(--background);
+	background-attachment: fixed;
 	font-family: Arial, Helvetica, sans-serif;
 }
 

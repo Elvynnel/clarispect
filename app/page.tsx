@@ -34,7 +34,7 @@ export default async function ListingPage({ searchParams: { order, sortBy } }: L
 				<SectionText>Recommended for you</SectionText>
 				<ClipCard.Exposed clip={clips[0]} href={`/${clips[0].id}`} />
 				<SectionText className="pt-6">More videos</SectionText>
-				<div className="grid grid-cols-3 gap-8 pb-20">
+				<div className="grid grid-cols-1 gap-8 pb-20 md:grid-cols-2 lg:grid-cols-3">
 					{clips.slice(1).map((clip) => (
 						<ClipCard clip={clip} href={`/${clip.id}`} key={clip.id} />
 					))}
