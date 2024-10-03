@@ -51,7 +51,7 @@ const SortingSection = ({ order, sortBy }: ListingPageProps['searchParams']) => 
 			<SortLink sortKey="createdAt" order={order} activeSortKey={sortBy} sortParamName="Date" />
 			<SortLink sortKey="name" order={order} activeSortKey={sortBy} sortParamName="Name" />
 		</div>
-		<Link href={'/'} className="p-1 text-xs text-white">
+		<Link href={'/'} className="p-2 text-xs text-white hover:text-orange-300">
 			X
 		</Link>
 	</div>

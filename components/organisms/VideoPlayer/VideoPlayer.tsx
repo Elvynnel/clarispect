@@ -1,5 +1,6 @@
 'use client';
 import { clsx } from 'clsx';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { match } from 'ts-pattern';
 
@@ -7,6 +8,7 @@ import {
 	IconArrowBackward,
 	IconArrowForward,
 	IconArrowPlayAgain,
+	IconCross,
 	IconMuted,
 	IconPause,
 	IconPlay,
@@ -103,7 +105,15 @@ export const VideoPlayer = ({ clip }: { clip: Clip }) => {
 
 	return (
 		<div className="flex w-11/12 flex-col rounded-3xl bg-slate-900 px-6 pt-4 md:max-w-screen-md 2xl:max-w-screen-lg 2xl:px-8 2xl:pt-8">
-			<SectionText>Never gonna to unsee this</SectionText>
+			<div className="flex items-center justify-between">
+				<SectionText>Never gonna to unsee this</SectionText>
+				<Link
+					href="/"
+					className="p-3 text-sm text-orange-300 transition duration-300 hover:scale-150 md:text-lg 2xl:text-xl"
+				>
+					<IconCross colorClassName="bg-orange-300" size="xs" />
+				</Link>
+			</div>
 			<p
 				className={clsx(
 					'pb-1 text-xl text-white md:text-3xl 2xl:pb-4 2xl:text-5xl',

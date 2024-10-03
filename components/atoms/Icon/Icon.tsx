@@ -75,6 +75,13 @@ export const IconArrowUp = ({ className, ...props }: SpecificIcon) => (
 	/>
 );
 
+export const IconCross = ({ className, ...props }: SpecificIcon) => (
+	<Icon
+		{...props}
+		className={clsx('[mask-image:url("../public/images/svg/cross.svg")]', className)}
+	/>
+);
+
 export const IconMuted = ({ className, ...props }: SpecificIcon) => (
 	<Icon
 		{...props}
